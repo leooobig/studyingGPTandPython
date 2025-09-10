@@ -17,14 +17,22 @@ python -m venv .venv
 # Linux/Mac
 source .venv/bin/activate
 ```
-### 2. Instale as dependências
+
+### 2. Clone o repositório
+No terminal, dentro da pasta do projeto:
+
+```bash
+git clone https://github.com/leooobig/studyingGPTandPython
+```
+
+### 3. Instale as dependências
 No terminal, dentro da pasta do projeto:
 
 ```bash
 # pip install -r requirements.txt
 ```
 
-### 3. Configuração da KEY
+### 4. Configuração da KEY
 Dentro da pasta do projeto procure o arquivo "env-example.txt" e renomeie para ".env" e copie este código abaixo:
 
 ``` bash
