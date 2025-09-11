@@ -7,33 +7,45 @@ MY_KEY_OPENAI = os.getenv("MY_KEY_OPENAI")
 
 cliente = OpenAI(api_key=os.getenv("MY_KEY_OPENAI"))
 
-def categorizador(produto:str):
+modelo = "gpt-5-nano"
+promptSystem = f"""
+        Você é um categorizador de produtos.
+        Você deve assumir as categorias presentes na lista abaixo.
+
+        # Lista de Categorias Válidas
+            - Moda Sustentável
+            - Produtos para o Lar
+            - Beleza Natural
+            - Eletrônicos Verdes
+
+        # Formato da Saída
+        Produto: Nome do Produto
+        Categoria: apresente a categoria do produto
+
+        # Exemplo de Saída
+        Produto: Escova elétrica com recarga solar
+        Categoria: Eletrônicos Verdes
+    """
+
+def getPromptUser():
+    promptUser = str(input("Descreva o produto: "))
+    os.system('cls')
+    return promptUser
+
+def categorizador():
     response = cliente.chat.completions.create(
         messages=[
             {
                 "role": "system",
-                "content": """
-                Categorize o produto abaixo em uma das seguintes categorias:
-                Higiene Pessoal, Moda, Casa, etc
-                e de uma descrição para o produto, e faça de uma maneira que uma
-                descrição não seja igual a do produto anterior.
-                Para cada produto sempre mantenha a primeira categoria.
-                """
+                "content": promptSystem,
             },
             {
                 "role": "user",
-                "content" : f"""
-                {produto}
-                """
+                "content" : getPromptUser(),
             },
         ],
-        model="gpt-5-nano",
-        n = 3
+        model=modelo,
     )
-    
-    for i in range(len(response.choices)):
-        print(f"Reposta {i+1}: ")
-        print(response.choices[i].message.content)
-        print()
+    print(response.choices[0].message.content)
 
     
